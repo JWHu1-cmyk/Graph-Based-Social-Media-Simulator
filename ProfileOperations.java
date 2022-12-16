@@ -1,4 +1,5 @@
 //import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 /* @author Harish Rajmohan
 * @author Junwei Hu 
@@ -8,11 +9,19 @@ import java.util.Scanner;
 public class ProfileOperations {
 	private ArrayList<Profile> profiles;
 
+	@Deprecated
 	private LinkedDictionary<Profile, ArrayList> friendsList;
+		
+
+	private UndirectedGraph<String> friendList1;
 
 	public ProfileOperations() {
+
 		this.profiles = new ArrayList<>();
+
 		this.friendsList = new LinkedDictionary<>();
+
+		this.friendList1 = new UndirectedGraph<>();
 
 	}
 
@@ -30,13 +39,14 @@ public class ProfileOperations {
 	}
 
 	public void addFriends() {
+
+		// procedure to see whether the profile to have friends added exist within profiles arraylist
 		if (profiles.isEmpty()) {
 			System.out.println("No profiles yet!\n");
 			return;
 		}
-
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter profile name for adding friends: ");
+		System.out.print("Enter profile name to be having friends added to: ");
 		String pName = sc.nextLine().trim();
 		int index = getIndexOfProfile(pName);
 		if (index == -1) {
@@ -45,23 +55,42 @@ public class ProfileOperations {
 			// nice, never thought about return
 		}
 
+
+
+		// procedure to add friends to the intended profile, friendsList is a dictionary, you use the profile to find an arraylist that contains its friends, then you add the new friend's name
 		System.out.print("Enter the name of the friend: ");
 		String fName = sc.nextLine().trim();
 		// profiles.get(index).addFriend(fName);
-		friendsList.getValue(profiles.getEntry(index)).add(fName);
-
+		// friendsList.getValue(profiles.getEntry(index)).add(fName);
+			friendList1.addEdge(pName, fName);
 		// for (int i = 0; i < friendsList.getValue(profiles.get(index)).size(); i++) {
 		// System.out.println("\n"+friendsList.getValue(profiles.get(index)).get(i));
 		// }
 
 	}
 
+		// @ testing method fo addFriend()'s graph implementation
+	public void showListOfFriends(){
+		String Name1;
+		System.out.printf("\n enter friend's name to see friend's friendList:");
+		Scanner sc = new Scanner(System.in);
+			Name1 = sc.next();
+ 		Iterator<VertexInterface<String>> neighborList1 = friendList1.getVertex(Name1).getNeighborIterator();
+		while (neighborList1.hasNext()){
+			System.out.printf(neighborList1.next().getLabel());
+		}
+		System.out.printf("\n");
+	}
+
+
+
 	public void deleteFriends() {
+
+			// procedure to see whether the profile to have friends added exist within profiles arraylist
 		if (profiles.isEmpty()) {
 			System.out.println("No profiles yet!\n");
 			return;
 		}
-
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter profile name for deleteing friends: ");
 		String pName = sc.nextLine().trim();
@@ -72,12 +101,12 @@ public class ProfileOperations {
 			// nice, never thought about return
 		}
 
+
+
+		// procedure to delete friends from the intended profile, friendsList is a dictionary, you use the profile to find an arraylist that contains its friends, then you delete the friend's name
 		System.out.print("Enter the name of the friends to be deleted: ");
-
 		String deletedName = sc.nextLine().trim();
-
 		ArrayList friendsListForOnePerson = friendsList.getValue(profiles.getEntry(index));
-
 		int indexForFriendsListForOnePerson = -1;
 		for (int i = 1; i <= friendsListForOnePerson.getLength(); i++) {
 			if (friendsListForOnePerson.getEntry(i).equals(deletedName)) {
@@ -86,7 +115,6 @@ public class ProfileOperations {
 				break;
 			}
 		}
-
 		if (indexForFriendsListForOnePerson != -1) {
 			friendsListForOnePerson.remove(indexForFriendsListForOnePerson);
 		} else {
@@ -95,6 +123,8 @@ public class ProfileOperations {
 
 	}
 
+
+
 	// £££££££££££££££££££££££££££££∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞¢¢¢¢¢¢¢¢¢¢¢¢¢¢£££££££™™™™™™™™
 	// good to go
 	// made changes for dictionary
@@ -102,51 +132,70 @@ public class ProfileOperations {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter profile name: ");
 		String pName = sc.nextLine().trim();
-		int index = getIndexOfProfile(pName);
-		if (index == -1) {
-			// profile not present, can add it
-			Profile profile = new Profile(pName);
-			System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
-			int stChoice = Integer.parseInt(sc.nextLine().trim());
-			while (stChoice != 1 && stChoice != 2 && stChoice != 3) {
-				System.out.println("Invalid status choice!\n");
-				System.out
-						.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
-				stChoice = Integer.parseInt(sc.nextLine().trim());
-			}
-			if (stChoice == 1) {
-				profile.setOnlineStatus();
-			} else if (stChoice == 2) {
-				profile.setOfflineStatus();
-			} else if (stChoice == 3) {
-				profile.setBusyStatus();
-			} else {
-				profile.setOfflineStatus();
-			}
-			System.out.println("Profile status set to " + profile.getStatus() + ".");
 
-			profiles.add(profile);
-			System.out.println("Profile has been created for " + pName + ".\n");
+			// @ for testing purposes
+		Profile profile = new Profile(pName);
+		profiles.add(profile);
+		friendList1.addVertex(pName);
 
-			// added by me to accomand dictionary
-			ArrayList friendList1 = new ArrayList<>();
-			friendsList.add(profile, friendList1);
 
-			// char yesNo;
-			// do {
-			// System.out.print("Add friend? [y/n]: ");
-			// yesNo = sc.nextLine().trim().charAt(0);
-			// if (yesNo == 'N' || yesNo == 'n')
-			// break;
-			// else {
-			// System.out.print("Name of the friend: ");
-			// String fName = sc.nextLine().trim();
-			// profile.addFriend(fName);
-			// }
-			// } while (yesNo != 'N' || yesNo != 'n');
-			// profiles.add(profile);
-			// System.out.println("Profile has been created for " + pName + ".\n");
-		}
+
+
+
+		// @ for testing purposes, black this out
+			// int index = getIndexOfProfile(pName);
+			// if (index == -1) {
+			// 	// profile not present, can add it
+			// 	Profile profile = new Profile(pName);
+			// 	System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
+			// 	int stChoice = Integer.parseInt(sc.nextLine().trim());
+			// 	while (stChoice != 1 && stChoice != 2 && stChoice != 3) {
+			// 		System.out.println("Invalid status choice!\n");
+			// 		System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
+			// 		stChoice = Integer.parseInt(sc.nextLine().trim());
+			// 	}
+			// 	if (stChoice == 1) {
+			// 		profile.setOnlineStatus();
+			// 	} else if (stChoice == 2) {
+			// 		profile.setOfflineStatus();
+			// 	} else if (stChoice == 3) {
+			// 		profile.setBusyStatus();
+			// 	} else {
+			// 		profile.setOfflineStatus();
+			// 	}
+			// 	System.out.println("Profile status set to " + profile.getStatus() + ".");
+
+			// 	profiles.add(profile);
+			// 	System.out.println("Profile has been created for " + pName + ".\n");
+
+
+
+
+
+					// added by me to accomand dictionary
+					// @deprecated
+				// ArrayList friendList1 = new ArrayList<>();
+				// friendsList.add(profile, friendList1);
+
+
+
+
+					// @ already blacked out useless
+				// char yesNo;
+				// do {
+				// System.out.print("Add friend? [y/n]: ");
+				// yesNo = sc.nextLine().trim().charAt(0);
+				// if (yesNo == 'N' || yesNo == 'n')
+				// break;
+				// else {
+				// System.out.print("Name of the friend: ");
+				// String fName = sc.nextLine().trim();
+				// profile.addFriend(fName);
+				// }
+				// } while (yesNo != 'N' || yesNo != 'n');
+				// profiles.add(profile);
+				// System.out.println("Profile has been created for " + pName + ".\n");
+			//}
 	}
 
 	// good to go
@@ -170,7 +219,6 @@ public class ProfileOperations {
 			System.out.println("No profiles yet!\n");
 			return;
 		}
-
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter profile name for reading profiles: ");
 		String pName = sc.nextLine().trim();
@@ -180,11 +228,13 @@ public class ProfileOperations {
 			return;
 			// nice, never thought about return
 		}
-
 		System.out.print("Reading the profile:\n");
 		System.out.print("Status: " + profiles.getEntry(index).getStatus() + "\n");
-		System.out.print("friendList: " + "\n");
 
+
+
+
+		System.out.print("friendList: " + "\n");
 		for (int i = 1; i <= friendsList.getValue(profiles.getEntry(index)).getLength(); i++) {
 			System.out.print(friendsList.getValue(profiles.getEntry(index)).getEntry(i) + "\n");
 		}
@@ -192,7 +242,7 @@ public class ProfileOperations {
 	}
 
 	// good to go
-	// acutally there is a problem ,should I give update firendlist option?
+	// acutally there is a problem ,should I give updated firendlist option?
 	public void updateProfile() {
 		if (profiles.isEmpty()) {
 			System.out.println("No profiles yet!\n");
@@ -237,6 +287,8 @@ public class ProfileOperations {
 
 			}
 
+
+
 			// char yesNo;
 			// do {
 			// System.out.print("Add friend? [y/n]: ");
@@ -268,6 +320,7 @@ public class ProfileOperations {
 		if (index == -1)
 			System.out.println("Sorry, there's no such profile named " + pName + "!\n");
 		else {
+
 			friendsList.remove(profiles.getEntry(index));
 
 			profiles.remove(index);

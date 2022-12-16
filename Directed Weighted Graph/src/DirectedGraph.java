@@ -377,5 +377,20 @@ public class DirectedGraph<T> implements GraphInterface<T>
        } // end while
        return traversalOrder;
     } // end getBreadthFirstTraversal
+
+
+
+
+
+
+// @special method in support of displaying friends, or readProfile() within profileOperation.java
+// tryingt to get data out of private DictionaryInterface<T, VertexInterface<T>> vertices;
+public VertexInterface<T> getVertex(T string1){
+    return vertices.getValue(string1);
+}
+
+
+
+
 } // end DirectedGraph
 
