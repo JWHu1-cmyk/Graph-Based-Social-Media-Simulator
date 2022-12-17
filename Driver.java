@@ -9,76 +9,80 @@ public class Driver {
 
 	public static void main(String[] args) {
 
-	ProfileOperations profileOps = new ProfileOperations();
+	// ProfileOperations profileOps = new ProfileOperations();
 
-		profileOps.createProfile();
-		profileOps.createProfile();
-		profileOps.addFriends();
- 		profileOps.showListOfFriends();
-
-
+	// 	profileOps.createProfile();
+	// 	profileOps.createProfile();
+	// 	profileOps.addFriends();
+ 	// 	profileOps.showListOfFriends();
 
 
-	// previous driver
-		// Scanner sc = new Scanner(System.in);
-		// ProfileOperations profileOps = new ProfileOperations();
-		// int choice;
 
-		// do {
-		// 	displayMenu();
-		// 	choice = Integer.parseInt(sc.nextLine().trim());
-		// 	switch (choice) {
-		// 		case 1: {
-		// 			System.out.println("\nCREATE PROFILE MODULE:\n" + "----------------------");
-		// 			profileOps.createProfile();
-		// 			break;
-		// 		}
 
-		// 		case 2: {
-		// 			System.out.println("\nSEARCH PROFILE MODULE:\n" + "----------------------");
-		// 			profileOps.searchProfile();
-		// 			break;
-		// 		}
+	//previous driver
+		Scanner sc = new Scanner(System.in);
+		ProfileOperations profileOps = new ProfileOperations();
+		int choice;
 
-		// 		case 3: {
-		// 			System.out.println("\nADD FRIENDS MODULE:\n" + "-------------------");
-		// 			profileOps.addFriends();
-		// 			break;
-		// 		}
+		do {
+			displayMenu();
+			choice = Integer.parseInt(sc.nextLine().trim());
+			switch (choice) {
 
-		// 		case 4: {
-		// 			System.out.println("\nREMOVE FRIENDS MODULE:\n" + "----------------------");
-		// 			profileOps.deleteFriends();
-		// 			break;
-		// 		}
+					//good
+				case 1: {
+					System.out.println("\nCREATE PROFILE MODULE:\n" + "----------------------");
+					profileOps.createProfile();
+					break;
+				}
 
-		// 		case 5: {
-		// 			System.out.println("\nUPDATE PROFILE MODULE:\n" + "----------------------");
-		// 			profileOps.updateProfile();
-		// 			break;
-		// 		}
+					//good 
+				case 2: {
+					System.out.println("\nSEARCH PROFILE MODULE:\n" + "----------------------");
+					profileOps.searchProfile();
+					break;
+				}
+					//good
+				case 3: {
+					System.out.println("\nADD FRIENDS MODULE:\n" + "-------------------");
+					profileOps.addFriends();
+					break;
+				}
+					//@deprecated
+				case 4: {
+					System.out.println("\nREMOVE FRIENDS MODULE:\n" + "----------------------");
+		System.out.println("delete friend method deprecated");
+					// profileOps.deleteFriends();
+					break;
+				}
+				//good
+				case 5: {
+					System.out.println("\nUPDATE PROFILE MODULE:\n" + "----------------------");
+					profileOps.updateProfile();
+					break;
+				}
+					//good
+				case 6: {
+					System.out.println("\nDELETE PROFILE MODULE:\n" + "----------------------");
+					profileOps.deleteProfile();
+					break;
+				}
+				//not good
+				case 7: {
+					System.out.println("\nREAD PROFILE MODULE:\n" + "----------------------");
+					profileOps.readProfile();
+					break;
+				}
 
-		// 		case 6: {
-		// 			System.out.println("\nDELETE PROFILE MODULE:\n" + "----------------------");
-		// 			profileOps.deleteProfile();
-		// 			break;
-		// 		}
-
-		// 		case 7: {
-		// 			System.out.println("\nREAD PROFILE MODULE:\n" + "----------------------");
-		// 			profileOps.readProfile();
-		// 			break;
-		// 		}
-
-		// 		case 0: {
-		// 			System.out.println(
-		// 					"\nThanks for using out Social Networking App.\n" + "Hope to see you soon..Goodbye!\n");
-		// 			System.exit(0);
-		// 		}
-		// 		default:
-		// 			System.out.println("\nInvalid selection!\n");
-		// 	}
-		// } while (choice != 0);
+				case 0: {
+					System.out.println(
+							"\nThanks for using out Social Networking App.\n" + "Hope to see you soon..Goodbye!\n");
+					System.exit(0);
+				}
+				default:
+					System.out.println("\nInvalid selection!\n");
+			}
+		} while (choice != 0);
 
 
 
@@ -90,7 +94,7 @@ public class Driver {
 						+ "1. Create profile\n"
 						+ "2. Search for a profile\n"
 						+ "3. Add friends\n"
-						+ "4. Remove friends\n"
+						+ "4. Remove friends, (method deprecated, not usable)\n"
 						+ "5. Update a profile\n"
 						+ "6. Delete a profile\n"
 						+ "7. read a profile\n"

@@ -11,9 +11,9 @@ public class ProfileOperations {
 
 	@Deprecated
 	private LinkedDictionary<Profile, ArrayList> friendsList;
-		
-
+	
 	private UndirectedGraph<String> friendList1;
+// replaces friendsList
 
 	public ProfileOperations() {
 
@@ -60,6 +60,12 @@ public class ProfileOperations {
 		// procedure to add friends to the intended profile, friendsList is a dictionary, you use the profile to find an arraylist that contains its friends, then you add the new friend's name
 		System.out.print("Enter the name of the friend: ");
 		String fName = sc.nextLine().trim();
+		int index1 = getIndexOfProfile(fName);
+		if (index1 == -1) {
+			System.out.println("There's no such profile named " + fName + "!\n");
+			return;
+			// nice, never thought about return
+		}
 		// profiles.get(index).addFriend(fName);
 		// friendsList.getValue(profiles.getEntry(index)).add(fName);
 			friendList1.addEdge(pName, fName);
@@ -72,7 +78,7 @@ public class ProfileOperations {
 		// @ testing method fo addFriend()'s graph implementation
 	public void showListOfFriends(){
 		String Name1;
-		System.out.printf("\n enter friend's name to see friend's friendList:");
+		System.out.printf("\nenter friend's name to see friend's friendList:");
 		Scanner sc = new Scanner(System.in);
 			Name1 = sc.next();
  		Iterator<VertexInterface<String>> neighborList1 = friendList1.getVertex(Name1).getNeighborIterator();
@@ -125,52 +131,53 @@ public class ProfileOperations {
 
 
 
-	// £££££££££££££££££££££££££££££∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞¢¢¢¢¢¢¢¢¢¢¢¢¢¢£££££££™™™™™™™™
-	// good to go
+ 	// good to go
 	// made changes for dictionary
 	public void createProfile() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter profile name: ");
 		String pName = sc.nextLine().trim();
 
+
+
 			// @ for testing purposes
-		Profile profile = new Profile(pName);
-		profiles.add(profile);
-		friendList1.addVertex(pName);
+		// Profile profile = new Profile(pName);
+		// profiles.add(profile);
+		// friendList1.addVertex(pName);
 
 
 
+		// @ for testing purposes, blacked this out;
+		// no need to be rewritten, it creates profile for private ArrayList<Profile> profiles;
+			int index = getIndexOfProfile(pName);
+			if (index == -1) {
+				// profile not present, can add it
+				Profile profile = new Profile(pName);
+				System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
+				int stChoice = Integer.parseInt(sc.nextLine().trim());
+				while (stChoice != 1 && stChoice != 2 && stChoice != 3) {
+					System.out.println("Invalid status choice!\n");
+					System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
+					stChoice = Integer.parseInt(sc.nextLine().trim());
+				}
+				if (stChoice == 1) {
+					profile.setOnlineStatus();
+				} else if (stChoice == 2) {
+					profile.setOfflineStatus();
+				} else if (stChoice == 3) {
+					profile.setBusyStatus();
+				} else {
+					profile.setOfflineStatus();
+				}
+				System.out.println("Profile status set to " + profile.getStatus() + ".");
 
-
-		// @ for testing purposes, black this out
-			// int index = getIndexOfProfile(pName);
-			// if (index == -1) {
-			// 	// profile not present, can add it
-			// 	Profile profile = new Profile(pName);
-			// 	System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
-			// 	int stChoice = Integer.parseInt(sc.nextLine().trim());
-			// 	while (stChoice != 1 && stChoice != 2 && stChoice != 3) {
-			// 		System.out.println("Invalid status choice!\n");
-			// 		System.out.print("Enter profile status:\n" + "1. Online\n" + "2. Offline\n" + "3. Busy\n" + "Enter >> ");
-			// 		stChoice = Integer.parseInt(sc.nextLine().trim());
-			// 	}
-			// 	if (stChoice == 1) {
-			// 		profile.setOnlineStatus();
-			// 	} else if (stChoice == 2) {
-			// 		profile.setOfflineStatus();
-			// 	} else if (stChoice == 3) {
-			// 		profile.setBusyStatus();
-			// 	} else {
-			// 		profile.setOfflineStatus();
-			// 	}
-			// 	System.out.println("Profile status set to " + profile.getStatus() + ".");
-
-			// 	profiles.add(profile);
-			// 	System.out.println("Profile has been created for " + pName + ".\n");
-
+				profiles.add(profile);
+				System.out.println("Profile has been created for " + pName + ".\n");
 
 
 
+				friendList1.addVertex(pName);
+					// replaces arrayList based friendList1
 
 					// added by me to accomand dictionary
 					// @deprecated
@@ -178,9 +185,8 @@ public class ProfileOperations {
 				// friendsList.add(profile, friendList1);
 
 
-
-
-					// @ already blacked out useless
+			
+					// @deprecated
 				// char yesNo;
 				// do {
 				// System.out.print("Add friend? [y/n]: ");
@@ -195,7 +201,7 @@ public class ProfileOperations {
 				// } while (yesNo != 'N' || yesNo != 'n');
 				// profiles.add(profile);
 				// System.out.println("Profile has been created for " + pName + ".\n");
-			//}
+			}
 	}
 
 	// good to go
@@ -233,11 +239,25 @@ public class ProfileOperations {
 
 
 
+		// @ depreciated, to be reimplemented with friendList
+		// System.out.print("friendList: " + "\n");
+		// for (int i = 1; i <= friendsList.getValue(profiles.getEntry(index)).getLength(); i++) {
+		// 	System.out.print(friendsList.getValue(profiles.getEntry(index)).getEntry(i) + "\n");
+		// }
 
-		System.out.print("friendList: " + "\n");
-		for (int i = 1; i <= friendsList.getValue(profiles.getEntry(index)).getLength(); i++) {
-			System.out.print(friendsList.getValue(profiles.getEntry(index)).getEntry(i) + "\n");
+
+
+		// String Name1;
+		System.out.printf("\nlist of friends:\n");
+		// Scanner sc = new Scanner(System.in);
+		// 	Name1 = sc.next();
+ 		Iterator<VertexInterface<String>> neighborList1 = friendList1.getVertex(pName).getNeighborIterator();
+		while (neighborList1.hasNext()){
+			System.out.printf(neighborList1.next().getLabel() + "\n");
 		}
+		System.out.printf("\n");
+
+
 
 	}
 
@@ -278,14 +298,14 @@ public class ProfileOperations {
 
 
 
- 
-			System.out.print("\nWould you like to delete the old friend list, enter 1 for yes, 0 for no \n");
-			int stChoice1 = Integer.parseInt(sc.nextLine().trim());
-			if (stChoice1 == 1) {
-				friendsList.getValue(profiles.getEntry(index)).clear();
-			} else {
+					// functionality taken out because vertex.java does not provide method for you to delete friends, or deconnect so to speak
+			// System.out.print("\nWould you like to delete the old friend list, enter 1 for yes, 0 for no \n");
+			// int stChoice1 = Integer.parseInt(sc.nextLine().trim());
+			// if (stChoice1 == 1) {
+			// 	friendsList.getValue(profiles.getEntry(index)).clear();
+			// } else {
 
-			}
+			// }
 
 
 
@@ -321,7 +341,8 @@ public class ProfileOperations {
 			System.out.println("Sorry, there's no such profile named " + pName + "!\n");
 		else {
 
-			friendsList.remove(profiles.getEntry(index));
+			// friendsList.remove(profiles.getEntry(index));
+				// no longer compatible with graph based final project, thus functionality taken out
 
 			profiles.remove(index);
  			// a new addition
