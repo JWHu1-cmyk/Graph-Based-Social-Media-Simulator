@@ -1,5 +1,0 @@
-
-Repeat the Project above to create a simple social network. Use a graph to track friend relationships among members of the network. Add a feature to enable people to see a list of their friends’ friends.
-	// so we can port whatever we had for project one, then rewrite portion of it using graph.
-		// he's asking to let friends see their friends' friends, which is easy to implement.
-			// he did not mention if friend1 befriends friend2, friend2's friendlist gets updated and includes friend1. which is good as it would be diffcult to implement.
